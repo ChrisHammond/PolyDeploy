@@ -60,7 +60,7 @@ namespace Cantarus.Modules.PolyDeploy.Components.WebAPI
 
                 // Receive files.
                 MultipartMemoryStreamProvider provider = await Request.Content.ReadAsMultipartAsync();
-
+                EventLogManager.Log("provider: ", EventLogSeverity.Warning, provider.Contents.ToString(), null);
                 foreach (HttpContent file in provider.Contents)
                 {
                     string filename = file.Headers.ContentDisposition.FileName.Replace("\"", "");
@@ -76,7 +76,7 @@ namespace Cantarus.Modules.PolyDeploy.Components.WebAPI
             }
             catch (Exception ex)
             {
-                EventLogManager.Log("REMOTE_EXCEPTION", EventLogSeverity.Warning, null, ex.InnerException);
+                EventLogManager.Log("REMOTE_EXCEPTION", EventLogSeverity.Warning, null, ex);
 
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
