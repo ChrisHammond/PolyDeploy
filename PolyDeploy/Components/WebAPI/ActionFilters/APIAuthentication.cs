@@ -22,16 +22,21 @@ namespace Cantarus.Modules.PolyDeploy.Components.WebAPI.ActionFilters
             try
             {
                 apiKey = actionContext.Request.GetApiKey();
+                
+                EventLogManager.Log("api-key is", EventLogSeverity.Info, apiKey);
 
                 // Make sure it's not null and it's 32 characters or we're wasting our time.
                 if (apiKey != null && apiKey.Length == 32)
                 {
+                    EventLogManager.Log("Find APIUSER using key", EventLogSeverity.Info, apiKey);
                     // Attempt to look up the api user.
                     APIUser apiUser = APIUserManager.FindAndPrepare(apiKey);
 
+                    EventLogManager.Log("APIUSER.prepared ", EventLogSeverity.Info, apiUser.Prepared.ToString());
                     // Did we find one and is it ready to use?
                     if (apiUser != null && apiUser.Prepared)
                     {
+                        EventLogManager.Log("Authenticated URI: " , EventLogSeverity.Info, "True: " + actionContext.Request.RequestUri);
                         // Genuine API user.
                         authenticated = true;
                     }

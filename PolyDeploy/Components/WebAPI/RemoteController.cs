@@ -76,7 +76,7 @@ namespace Cantarus.Modules.PolyDeploy.Components.WebAPI
             }
             catch (Exception ex)
             {
-                EventLogManager.Log("REMOTE_EXCEPTION", EventLogSeverity.Warning, null, ex);
+                EventLogManager.Log("REMOTE_EXCEPTION", EventLogSeverity.Warning, null, ex.InnerException);
 
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
