@@ -60,13 +60,18 @@ namespace Cantarus.Modules.PolyDeploy.Components.WebAPI
 
                 // Receive files.
                 MultipartMemoryStreamProvider provider = await Request.Content.ReadAsMultipartAsync();
-                EventLogManager.Log("provider: ", EventLogSeverity.Warning, provider.Contents.ToString(), null);
+                
                 foreach (HttpContent file in provider.Contents)
                 {
-                    string filename = file.Headers.ContentDisposition.FileName.Replace("\"", "");
-
+                    EventLogManager.Log("httpcontent filename: ", EventLogSeverity.Warning, "hard coded", null);
+                    //EventLogManager.Log("httpcontent filename: ", EventLogSeverity.Warning, file.Headers.ContentDisposition.FileName.ToString(), null);
+                    //string filename = file.Headers.ContentDisposition.FileName.Replace("\"", "");
+                    string filename = "DonorsTrust_Install.zip";
                     using (MemoryStream ms = new MemoryStream(await file.ReadAsByteArrayAsync()))
                     {
+                        EventLogManager.Log("MemoryStream ms length: ", EventLogSeverity.Warning, ms.Length.ToString(), null);
+                        EventLogManager.Log("apiUser.EncryptionKey: ", EventLogSeverity.Warning, apiUser.EncryptionKey.ToString(), null);
+
                         using (Stream ds = Crypto.Decrypt(ms, apiUser.EncryptionKey))
                         {
                             SessionManager.AddPackage(sessionGuid, ds, filename);
