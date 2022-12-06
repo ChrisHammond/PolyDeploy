@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "angular": "^1.4.3",
+    "angular": "^1.8.2",
     "angular-file-upload": "^2.5.0",
     "angular-ui-router": "^0.2.15",
     "bootstrap": "^3.3.7"
